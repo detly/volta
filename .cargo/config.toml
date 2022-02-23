@@ -1,2 +1,5 @@
+[target.aarch64-unknown-linux-musl]
+linker = "aarch64-unknown-linux-musl-gcc"
+
 [target.x86_64-unknown-linux-gnu.dependencies]
 attohttpc = { version = "0.18.0", features = ["json"] }
