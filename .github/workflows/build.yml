@@ -1,0 +1,28 @@
+on: push
+name: Build
+jobs:
+  linux-bare:
+    strategy:
+      fail-fast: false
+      matrix:
+        std: ["gnu", "musl"]
+        arch: ["x86_64", "aarch64"]
+    name: Linux - ${{ matrix.std }}-${{ matrix.arch }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Set up cargo
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+          target: ${{ matrix.arch }}-unknown-linux-${{ matrix.std }}
+
+      - name: Build with Cargo
+        uses: actions-rs/cargo@v1
+        with:
+          command: build
+          args: --release --target=${{ matrix.arch }}-unknown-linux-${{ matrix.std }}
