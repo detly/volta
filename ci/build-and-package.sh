@@ -4,7 +4,6 @@ set -e
 
 echo "Building Volta"
 
-rustc --print cfg
 cargo build --release
 
 echo "Packaging Binaries"
