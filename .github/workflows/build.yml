@@ -22,7 +22,4 @@ jobs:
           target: ${{ matrix.arch }}-unknown-linux-${{ matrix.std }}
 
       - name: Build with Cargo
-        uses: actions-rs/cargo@v1
-        with:
-          command: build
-          args: --release --target=${{ matrix.arch }}-unknown-linux-${{ matrix.std }}
+        run: RUST_BACKTRACE=1 cargo build --release --target=${{ matrix.arch }}-unknown-linux-${{ matrix.std }}
