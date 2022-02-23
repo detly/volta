@@ -28,36 +28,20 @@ jobs:
           path: target/release/volta-centos.tar.gz
 
   linux:
-    strategy:
-      matrix:
-        openssl:
-          - 1_1_0
-          - 1_0_1
-    name: Build - OpenSSL ${{ matrix.openssl }}
+    name: Build - Linux
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
         uses: actions/checkout@v2
-      - name: Check out OpenSSL
-        uses: actions/checkout@v2
-        with:
-          repository: openssl/openssl
-          ref: OpenSSL_${{ matrix.openssl }}-stable
-          path: openssl
-      - name: Set up docker image
-        run: docker build -t volta .
-        working-directory: ./ci/docker
-      - name: Compile and package OpenSSL & Volta
-        run: docker run --volume ${PWD}:/root/workspace --workdir /root/workspace --rm --init --tty volta /root/workspace/ci/build-with-openssl.sh volta-openssl-${{ matrix.openssl }}
-      - name: Confirm OpenSSL Version
-        run: |
-          objdump -p target/release/volta
-          readelf -d target/release/volta
+
+      - name: Build Volta
+        run: ./ci/build-and-package.sh volta-linux
+
       - name: Upload release artifact
         uses: actions/upload-artifact@v2
         with:
-          name: linux-openssl-${{ matrix.openssl }}
-          path: target/release/volta-openssl-${{ matrix.openssl }}.tar.gz
+          name: linux
+          path: target/release/volta-linux.tar.gz
 
   macos:
     name: Build - MacOS

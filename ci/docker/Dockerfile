@@ -11,3 +11,4 @@ RUN yum -y install gcc curl openssl openssl-devel ca-certificates tar perl perl-
 # Install Rust
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain stable
 ENV PATH="/root/.cargo/bin:${PATH}"
+ADD ./.cargo /root/workspace/.cargo
